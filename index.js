@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const client = new Discord.Client();
 
+const WHITELIST = ["normal","special","other","newbie"];
+
+
 if (config.token === "notfilled")
     return console.log("Please set your token");
 
@@ -11,9 +14,9 @@ client.on('ready', () => {
 
 client.on('message', (message) => {
     if (message.author.bot) return;
-    if (!message.content.startsWith(config.PREFIX)) return;
+    if (!message.content.startsWith(process.env.PREFIX)) return;
 
-    const cmdBody = message.content.slice(config.PREFIX.length);
+    const cmdBody = message.content.slice(process.env.PREFIX.length);
     const args = cmdBody.split(' ');
     const command = args.shift().toLowerCase();
 
@@ -70,7 +73,7 @@ function clampAmt(num, min, max) {
 
 function createPlayerChats(msg, type, amt) {
     var cat = getCategory(type);
-    if (config.WHITELIST.includes(cat)) {
+    if (WHITELIST.includes(cat)) {
         const guild = msg.guild;
         var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
         if (category !== undefined) {
@@ -84,7 +87,7 @@ function createPlayerChats(msg, type, amt) {
 }
 function createPrivateChats(msg, type, amt) {
     var cat = getCategory(type);
-    if (config.WHITELIST.includes(cat)) {
+    if (WHITELIST.includes(cat)) {
         const guild = msg.guild;
         var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
         if (category !== undefined) {
@@ -98,7 +101,7 @@ function createPrivateChats(msg, type, amt) {
 }
 function clearPlayerChats(msg, type) {
     var cat = getCategory(type);
-    if (config.WHITELIST.includes(cat)) {
+    if (WHITELIST.includes(cat)) {
         const guild = msg.guild;
         var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
         if (category !== undefined) {
@@ -111,4 +114,4 @@ function clearPlayerChats(msg, type) {
     }
 }
 
-client.login(config.TOKEN);
+client.login(process.env.TOKEN);
