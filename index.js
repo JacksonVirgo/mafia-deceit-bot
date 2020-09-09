@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
-const config = require('./config.json');
 const client = new Discord.Client();
+
+const config = process.env.config || require('./config.json');
 
 client.on('ready', () => {
     console.log(client.user.username + " is online");
