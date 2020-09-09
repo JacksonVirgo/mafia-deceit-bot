@@ -12,9 +12,9 @@ client.on('ready', () => {
 
 client.on('message', (message) => {
     if (message.author.bot) return;
-    if (!message.content.startsWith(config.json.PREFIX)) return;
+    if (!message.content.startsWith(config.PREFIX)) return;
 
-    const cmdBody = message.content.slice(config.json.PREFIX.length);
+    const cmdBody = message.content.slice(config.PREFIX.length);
     const args = cmdBody.split(' ');
     const command = args.shift().toLowerCase();
 
@@ -112,4 +112,4 @@ function clearPlayerChats(msg, type) {
     }
 }
 
-client.login(config.json.TOKEN);
+client.login(config.TOKEN);
