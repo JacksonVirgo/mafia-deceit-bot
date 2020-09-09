@@ -2,10 +2,6 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const client = new Discord.Client();
 
-
-if (config.token === "notfilled")
-    return console.log("Please set your token");
-
 client.on('ready', () => {
     console.log(client.user.username + " is online");
 });
@@ -18,28 +14,13 @@ client.on('message', (message) => {
     const args = cmdBody.split(' ');
     const command = args.shift().toLowerCase();
 
-    console.log(`total: ${message.content}\n
-    cmdBody: ${cmdBody}\n
-    args: ${args}\n
-    command: ${command}`);
-
-    if (command === 'clear') {
-        let channelName = message.channel.name.toLowerCase();
-        switch (channelName) {
-            case "normal-panel":
-                message.channel.send("Resetting Perms for Normal");
-                break;
-            default:
-                message.channel.send("You don't have the perms to use this command");
-                break;
-        }
-    }
+    console.log(`${message.author.username} sent: ${message.content}`);
 
     switch (command) {
         case "players":
             let arg = parseInt(args[0]);
             if (!isNaN(arg)) {
-                createPlayerChats(message, message.channel.name.toLowerCase(), clampAmt(arg, 0, 50));
+                createPlayerChats(message, message.channel.name.toLowerCase(), clamp(arg, 0, 50));
             } else {
                 message.channel.send("You sent an invalid number");
             }
@@ -50,7 +31,7 @@ client.on('message', (message) => {
         case "private":
             let privateArg = parseInt(args[0]);
             if (!isNaN(privateArg)) {
-                createPrivateChats(message, message.channel.name.toLowerCase(), clampAmt(privateArg, 0, 50));
+                createPrivateChats(message, message.channel.name.toLowerCase(), clamp(privateArg, 0, 50));
             } else {
                 message.channel.send("You sent an invalid number");
             }
@@ -64,14 +45,14 @@ function getCategory(type) {
     return args[0];
 }
 
-function clampAmt(num, min, max) {
-    if (num < min) num = min;
-    if (num > max) num = max;
+function clamp(num, min, max) {
+    return num <= min ? min : num >= max ? max : num;
 }
 
 function createPlayerChats(msg, type, amt) {
     var cat = getCategory(type);
     if (config.WHITELIST.includes(cat)) {
+        console.log(config.WHITELIST);
         const guild = msg.guild;
         var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
         if (category !== undefined) {
@@ -80,6 +61,7 @@ function createPlayerChats(msg, type, amt) {
                     channel.setParent(category.id);
                 })
             }
+            msg.channel.send(`Created ${amt} player chats`);
         }
     }
 }
@@ -94,6 +76,7 @@ function createPrivateChats(msg, type, amt) {
                     channel.setParent(category.id);
                 })
             }
+            msg.channel.send(`Created ${amt} private chats`);
         }
     }
 }
@@ -103,11 +86,14 @@ function clearPlayerChats(msg, type) {
         const guild = msg.guild;
         var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
         if (category !== undefined) {
-
             var channels = category.children.array();
+            var count = 0;
             for (var i = 0; i < channels.length; i++) {                
                 channels[i].delete();
+                count += 1;
             }
+            msg.channel.send(`Cleared ${count} channels`);
+
         }
     }
 }
