@@ -2,9 +2,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const config = require('./config.json');
-
-console.log(process.env);
-
+if (config === undefined) {
+    config = {
+        TOKEN: process.env.TOKEN,
+        PREFIX: process.env.PREFIX
+    }
+}
+console.log(config);
 client.on('ready', () => {
     console.log(client.user.username + " is online");
 });
