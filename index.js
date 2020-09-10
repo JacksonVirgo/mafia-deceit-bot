@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 const config = require('./config.json');
 
-console.log(process.env.config);
+console.log(process.env);
 
 client.on('ready', () => {
     console.log(client.user.username + " is online");
