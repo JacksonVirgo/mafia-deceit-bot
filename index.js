@@ -37,6 +37,9 @@ client.on('message', (message) => {
                 message.channel.send("You sent an invalid number");
             }
             break;
+        case "open":
+            openPlayerChats(message, message.channel.name.toLowerCase());
+            break;
     }
 });
 
@@ -98,5 +101,21 @@ function clearPlayerChats(msg, type) {
         }
     }
 }
+function openPlayerChats(msg, type) {
+    var cat = getCategory(type);
+    if (config.WHITELIST.includes(cat)) {
+        const guild = msg.guild;
+        var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
+        if (category !== undefined) {
+            var channels = category.children.array();
+            var count = 0;
+            for (var i = 0; i < channels.length; i++) {     
+                channels[i].updateOverwrite(guild.roles.everyone, { VIEW_CHANNEL: true });
+                count += 1;
+            }
+            msg.channel.send(`Opened ${count} channels`);
 
+        }
+    }
+}
 client.login(config.TOKEN);
