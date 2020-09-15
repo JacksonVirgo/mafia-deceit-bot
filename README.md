@@ -6,7 +6,8 @@ This discord bot is for a [Discord Mafia](https://discord.gg/pJpUWnH) server, sp
 # Host Commands
 ```
 m!players X
-```Creates X amount of player-chats, numbered from 1-X
+```
+Creates X amount of player-chats, numbered from 1-X
 
 ```
 m!private X
