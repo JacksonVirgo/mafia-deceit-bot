@@ -4,16 +4,23 @@ This discord bot is for a [Discord Mafia](https://discord.gg/pJpUWnH) server, sp
 
 
 # Host Commands
-> m!players X
-Creates X amount of player-chats, numbered from 1-X
+```
+m!players X
+```Creates X amount of player-chats, numbered from 1-X
 
-> m!private X
+```
+m!private X
+```
 Creates X amount of private chats, numbered from 1-X
 
-> m!open
+```
+m!open
+```
 Opens up all player and private chats so everyone can see them.
 
-> m!close
+```
+m!close
+```
 Closes all player and private chats so only the host can see the
 
 # Moderator Commands
@@ -21,7 +28,9 @@ The moderator is the owner of the server, who overseers all channels created to 
 
 Moderators have their own commands in which they can use.
 
-> m!host user_id host_type
+```
+m!host user_id host_type
+```
 User of `user_id` will be given permissions to use the host panel of `host_type`. It will attach the host to the appropriately named panel.
 
 # Host Panels
