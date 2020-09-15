@@ -43,6 +43,9 @@ client.on('message', (message) => {
         case "open":
             openPlayerChats(message, message.channel.name.toLowerCase());
             break;
+        case "close":
+            closePlayerChats(message, message.channel.name.toLowerCase());
+            break;
     }
 });
 
@@ -117,6 +120,24 @@ function openPlayerChats(msg, type) {
                 count += 1;
             }
             msg.channel.send(`Opened ${count} channels`);
+
+        }
+    }
+}
+
+function closePlayerChats(msg, type) {
+    var cat = getCategory(type);
+    if (config.WHITELIST.includes(cat)) {
+        const guild = msg.guild;
+        var category =  guild.channels.cache.find(c => c.name == cat && c.type == "category");
+        if (category !== undefined) {
+            var channels = category.children.array();
+            var count = 0;
+            for (var i = 0; i < channels.length; i++) {     
+                channels[i].updateOverwrite(guild.roles.everyone, { VIEW_CHANNEL: false });
+                count += 1;
+            }
+            msg.channel.send(`Closed ${count} channels`);
 
         }
     }
