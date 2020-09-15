@@ -3,8 +3,7 @@ const client = new Discord.Client();
 
 // Remove when publishing
 //const config = require('./config.json');
-const config = { TOKEN: process.env.TOKEN, PREFIX: process.env.PREFIX }
-
+const config = { TOKEN: process.env.TOKEN, PREFIX: process.env.PREFIX, WHITELIST: process.env.WHITELIST }
 
 console.log(config);
 
