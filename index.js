@@ -2,8 +2,10 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 // Remove when publishing
-const config = require('./config.json');
-//const config = { TOKEN: process.env.TOKEN, PREFIX: process.env.PREFIX }
+//const config = require('./config.json');
+const config = { TOKEN: process.env.TOKEN, PREFIX: process.env.PREFIX }
+
+
 console.log(config);
 
 client.on('ready', () => {
